@@ -1,14 +1,15 @@
 import config from '../App/App.config';
 
 const initialState = {
-    selectedItemId: config.defaultSelectedItem
+    selectedItem: config.defaultSelectedItem
 }
+
 export default function selectedItem(state = initialState, action) {
     switch (action.type) {
-        case "SET_SELECTED_ITEM": return action.value;
+        case "SET_SELECTED_ITEM": return action.id;
 
         default: {
-            return state;
+            return state.selectedItem;
         }
     }
 }

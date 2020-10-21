@@ -1,7 +1,7 @@
-function setSelectedItem(value) {
+function setSelectedItem(id) {
     return {
         type: "SET_SELECTED_ITEM",
-        value
+        id
     }
 }
 

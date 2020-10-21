@@ -1,5 +1,5 @@
 const config = {
-    defaultSelectedItem: "pencile"
+    defaultSelectedItem: "indicatorIconButton-pencil"
 }
 
 export default config;
