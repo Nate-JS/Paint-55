@@ -1,0 +1,7 @@
+.toolbar {
+  background-color: var(--toolbar-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}

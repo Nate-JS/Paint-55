@@ -1,0 +1,42 @@
+.iconButton {
+  width: var(--toolbar-item-width);
+  height: var(--toolbar-item-height);
+  padding: calc(var(--toolbar-item-width) * 0.3);
+}
+
+.iconButton__icon {
+  width: 100%;
+  height: 100%;
+}
+
+.iconButton--standard {
+  border-radius: 50%;
+}
+
+.iconButton--standard:hover {
+  background-color:rgb(27, 41, 22);
+}
+
+
+.iconButton--exclusive {
+  position: relative;
+}
+
+.iconButton--exclusive:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 3px;
+  background-color: rgb(0, 0, 0);
+}
+/* rgb(36, 253, 21)  */
+.iconButton--exclusive:not(.iconButton--active):hover:after {
+  background-color: rgb(37, 37, 37);
+  
+}
+
+.iconButton--exclusive.iconButton--active:after {
+  background-color:rgb(36, 253, 21);
+}
