@@ -2,7 +2,8 @@ import React from 'react';
 import './Toolbar.css';
 
 // Importing components
-import IconButton from './components/IconButton/IconButton';
+import SimpleIconButton from './components/SimpleIconButton/SimpleIconButton';
+import IndicatorIconButton from './components/IndicatorIconButton/IndicatorIconButton';
 import InputColor from './components/InputColor/InputColor';
 import InputSize from './components/InputSize/InputSize';
 import Group from './components/Group/Group';
@@ -26,29 +27,26 @@ export default function Toolbar() {
     return (
         <div className="toolbar">
             <Group>
-                <IconButton type="standard" icon={chevronLeftIcon} />
-                <IconButton type="standard" icon={chevronRightIcon} />
+                <SimpleIconButton id="simpleIconButton-chevron-left" icon={chevronLeftIcon} />
+                <SimpleIconButton id="simpleIconButton-chevron-right" icon={chevronRightIcon} />
             </Group>
-
             <Group>
-                <IconButton type="exclusive" icon={pencilIcon} active />
-                <IconButton type="exclusive" icon={brushIcon} />
-                <IconButton type="exclusive" icon={eraserIcon} />
-                <IconButton type="exclusive" icon={textIcon} />
-                <IconButton type="exclusive" icon={lineIcon} />
-                <IconButton type="exclusive" icon={rectangleIcon} />
-                <IconButton type="exclusive" icon={circleIcon} />
+                <IndicatorIconButton id="indicatorIconButton-pencil" icon={pencilIcon} />
+                <IndicatorIconButton id="indicatorIconButton-brush" icon={brushIcon} />
+                <IndicatorIconButton id="indicatorIconButton-eraser" icon={eraserIcon} />
+                <IndicatorIconButton id="indicatorIconButton-text" icon={textIcon} />
+                <IndicatorIconButton id="indicatorIconButton-line" icon={lineIcon} />
+                <IndicatorIconButton id="indicatorIconButton-rectangle" icon={rectangleIcon} />
+                <IndicatorIconButton id="indicatorIconButton-circle" icon={circleIcon} />
             </Group>
-
             <Group>
-                <InputSize />
-                <InputColor />
+                <InputSize id="input-size" />
+                <InputColor id="input-color" />
             </Group>
-
             <Group>
-                <IconButton type="standard" icon={downloadIcon} />
-                <IconButton type="standard" icon={trashIcon} />
-                <IconButton type="standard" icon={settingsIcon} />
+                <SimpleIconButton id="simpleIconButton-download" icon={downloadIcon} />
+                <SimpleIconButton id="simpleIconButton-trash" icon={trashIcon} />
+                <SimpleIconButton id="simpleIconButton-settings" icon={settingsIcon} />
             </Group>
         </div>
     )
