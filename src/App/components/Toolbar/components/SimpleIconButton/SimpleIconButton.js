@@ -2,7 +2,7 @@ import React from 'react';
 import './SimpleIconButton.css';
 
 
-export default function SimpleIconButton({ icon }) {
+export default function SimpleIconButton({ id, icon }) {
     function handleClick() {
 
     }
@@ -11,7 +11,7 @@ export default function SimpleIconButton({ icon }) {
         <div
             className="simpleIconButton"
 
-            id={`simpleIconButton-${icon}`}
+            id={id}
 
             onClick={handleClick}
         >
