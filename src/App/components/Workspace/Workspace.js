@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './Workspace.css';
 
-const PARENT_ELEMENT_ID = "workspace"
 // Workspace component is resposiable for drawing defferent elements on the screen
 // It uses canvas API to draw elements and the stuff like that
 export default class Workspace extends Component {
@@ -13,23 +12,38 @@ export default class Workspace extends Component {
         this.objects = [];
 
         // Creating refs
-        this.createRefs();
-
-    }
-
-    createRefs() {
         this.workspaceRef = React.createRef();
         this.canvasRef = React.createRef();
+
     }
+
+    componentDidMount() {
+        // Setting elements
+        this.workspace = this.workspaceRef.current;
+        this.canvas = this.canvasRef.current;
+
+        // Creating context
+        this.context = this.canvas.getContext('2d');
+
+        // Setting up the width and height of the canvas
+        this.setCanvasWidthAndHeight()
+
+        // Drawing the first element
+        this.drawRectangle({ x: 150, y: 150 }, 100, 100, "red", "red", false)
+    }
+
 
     setCanvasWidthAndHeight() {
         // Getting the width and height of the parent element
-        this.parentHTMLElement = this.workspaceRef.current;
-        this.parentHTMLElementStyles = getComputedStyle(this.parentHTMLElement);
+        const parentHTMLElement = this.canvas.parentElement;
+        const parentHTMLElementStyles = getComputedStyle(parentHTMLElement);
 
         // Creating width and height variables, based on the parent element's properties
-        this.w = parseInt(this.parentHTMLElementStyles.getPropertyValue("width"), 10);
-        this.h = parseInt(this.parentHTMLElementStyles.getPropertyValue("height"), 10);
+        const w = parseInt(parentHTMLElementStyles.getPropertyValue("width"), 10);
+        const h = parseInt(parentHTMLElementStyles.getPropertyValue("height"), 10);
+
+        this.canvas.width = w;
+        this.canvas.height = h;
     }
 
     setWidth(width) {
@@ -94,21 +108,6 @@ export default class Workspace extends Component {
 
     clear() {
         this.context.clearRect(0, 0, this.w, this.h)
-    }
-
-    componentDidMount() {
-        // Setting elements
-        this.workspace = this.workspaceRef.current;
-        this.canvas = this.canvasRef.current;
-
-        // Creating context
-        this.context = this.canvas.getContext('2d');
-
-        // Setting up the width and height of the canvas
-        this.setCanvasWidthAndHeight()
-
-        // Drawing the first element
-        this.drawCircle({ x: 50, y: 50 }, 5, 5, "red", "red", false)
     }
 
     render() {
