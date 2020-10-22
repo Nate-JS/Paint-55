@@ -6,7 +6,6 @@ import Workspace from './components/Workspace/Workspace';
 
 
 function App() {
-
   return (
     <div className="app">
       <Toolbar />

@@ -1,4 +1,9 @@
 .workspace {
     flex: 1;
     background-color: #fff;
+    display: flex;
+}
+
+.canvas {
+    flex: 1;
 }

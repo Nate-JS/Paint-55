@@ -1,35 +1,35 @@
-import React, { Component } from 'react';
-import './Workspace.css';
-
 const PARENT_ELEMENT_ID = "workspace"
-// Workspace component is resposiable for drawing defferent elements on the screen
-// It uses canvas API to draw elements and the stuff like that
-export default class Workspace extends Component {
-    constructor(props) {
-        // Calling parent`s constructor function
-        super(props);
 
-        // All objects that will be drawn
-        this.objects = [];
-
-        // Creating refs
-        this.createRefs();
-
+class Canvas {
+    constructor() {
+        this.setSizes();
+        this.creatHTMLElement();
+        this.setContext();
     }
 
-    createRefs() {
-        this.workspaceRef = React.createRef();
-        this.canvasRef = React.createRef();
+    creatHTMLElement() {
+        // Creating the canvas element
+        this.HTMLElement = document.createElement('canvas');
+        this.HTMLElement.id = 'canvas';
+        this.HTMLElement.width = this.w;
+        this.HTMLElement.height = this.h;
+
+        // Pushing the canvas element to the parent element
+        this.parentHTMLElement.appendChild(this.HTMLElement);
     }
 
-    setCanvasWidthAndHeight() {
+    setSizes() {
         // Getting the width and height of the parent element
-        this.parentHTMLElement = this.workspaceRef.current;
+        this.parentHTMLElement = document.getElementById(PARENT_ELEMENT_ID);
         this.parentHTMLElementStyles = getComputedStyle(this.parentHTMLElement);
 
         // Creating width and height variables, based on the parent element's properties
         this.w = parseInt(this.parentHTMLElementStyles.getPropertyValue("width"), 10);
         this.h = parseInt(this.parentHTMLElementStyles.getPropertyValue("height"), 10);
+    }
+
+    setContext() {
+        this.context = this.HTMLElement.getContext('2d');
     }
 
     setWidth(width) {
@@ -40,6 +40,7 @@ export default class Workspace extends Component {
         this.context.fillStyle = fillColor;
         this.context.strokeStyle = strokeColor;
     }
+
 
     drawLine(vector1, vector2, width, color) {
         this.context.beginPath()
@@ -95,35 +96,6 @@ export default class Workspace extends Component {
     clear() {
         this.context.clearRect(0, 0, this.w, this.h)
     }
-
-    componentDidMount() {
-        // Setting elements
-        this.workspace = this.workspaceRef.current;
-        this.canvas = this.canvasRef.current;
-
-        // Creating context
-        this.context = this.canvas.getContext('2d');
-
-        // Setting up the width and height of the canvas
-        this.setCanvasWidthAndHeight()
-
-        // Drawing the first element
-        this.drawCircle({ x: 50, y: 50 }, 5, 5, "red", "red", false)
-    }
-
-    render() {
-        return (
-            <div className="workspace" ref={this.workspaceRef}>
-                <canvas className="canvas" ref={this.canvasRef}></canvas>
-            </div>
-        )
-    }
 }
 
-
-
-
-
-
-
-
+export default Canvas;
