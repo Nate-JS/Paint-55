@@ -17,13 +17,14 @@ export default class Workspace extends Component {
 
     }
 
+    draw() {
+        // Drawing the first element
+        this.drawCircle(new Vector(500, 500), 50, 5, "lightblue", "black", false);
+    }
+
     componentDidMount() {
         // Setting up the canvas
         this.setCanvas()
-
-        // Drawing the first element
-        this.drawCircle(new Vector(500, 500), 50, 5, "lightblue", "black", false);
-
     }
 
     setCanvas() {
