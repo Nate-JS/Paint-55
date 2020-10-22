@@ -3,8 +3,7 @@ import './Workspace.css';
 
 export default function Workspace() {
     return (
-        <div className="workspace">
-            workspace
-        </div>
+        <canvas className="workspace">
+        </canvas>
     )
 }

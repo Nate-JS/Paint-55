@@ -1,8 +1,6 @@
-function setSelectedItem(id) {
+export default function setSelectedItem(item) {
     return {
         type: "SET_SELECTED_ITEM",
-        id
+        item // id
     }
 }
-
-export default setSelectedItem;

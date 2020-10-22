@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import './InputSize.css';
 
+import { useDispatch } from 'react-redux';
+import setSelectedWidth from '../../../../../actions/setSelectedWidth';
+
 export default function InputSize() {
+    const dispatch = useDispatch();
     const [value, setValue] = useState(4);
 
     function updateValue(newValue) {
         setValue(newValue);
+        dispatch(setSelectedWidth(newValue));
     }
 
     return (
