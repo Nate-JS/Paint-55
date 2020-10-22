@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './Workspace.css';
+import Vector from './utils/Vector';
 
 // Workspace component is resposiable for drawing defferent elements on the screen
 // It uses canvas API to draw elements and the stuff like that
@@ -12,28 +13,26 @@ export default class Workspace extends Component {
         this.objects = [];
 
         // Creating refs
-        this.workspaceRef = React.createRef();
         this.canvasRef = React.createRef();
 
     }
 
     componentDidMount() {
-        // Setting elements
-        this.workspace = this.workspaceRef.current;
+        // Setting up the canvas
+        this.setCanvas()
+
+        // Drawing the first element
+        this.drawCircle(new Vector(500, 500), 50, 5, "lightblue", "black", false);
+
+    }
+
+    setCanvas() {
+        // Creating canvas
         this.canvas = this.canvasRef.current;
 
         // Creating context
         this.context = this.canvas.getContext('2d');
 
-        // Setting up the width and height of the canvas
-        this.setCanvasWidthAndHeight()
-
-        // Drawing the first element
-        this.drawRectangle({ x: 150, y: 150 }, 100, 100, "red", "red", false)
-    }
-
-
-    setCanvasWidthAndHeight() {
         // Getting the width and height of the parent element
         const parentHTMLElement = this.canvas.parentElement;
         const parentHTMLElementStyles = getComputedStyle(parentHTMLElement);
@@ -42,8 +41,11 @@ export default class Workspace extends Component {
         const w = parseInt(parentHTMLElementStyles.getPropertyValue("width"), 10);
         const h = parseInt(parentHTMLElementStyles.getPropertyValue("height"), 10);
 
-        this.canvas.width = w;
-        this.canvas.height = h;
+        // Setting up the canvas' height and width
+        this.canvas.width = w
+        this.canvas.height = h
+        this.canvas.style.width = `${w}px`;
+        this.canvas.style.height = `${h}px`;
     }
 
     setWidth(width) {
@@ -112,7 +114,7 @@ export default class Workspace extends Component {
 
     render() {
         return (
-            <div className="workspace" ref={this.workspaceRef}>
+            <div className="workspace">
                 <canvas className="canvas" ref={this.canvasRef}></canvas>
             </div>
         )
