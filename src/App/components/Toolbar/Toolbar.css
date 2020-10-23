@@ -1,9 +1,8 @@
 .toolbar {
   background-color: var(--toolbar-color);
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
-  padding: 10px;
+  padding: 10px 20px;
   border-radius: 25px 25px 0 0;
-
 }

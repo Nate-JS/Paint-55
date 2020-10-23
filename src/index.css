@@ -1,14 +1,16 @@
-*, *:before, *:after {
-  margin: 0; 
-  padding: 0; 
+*,
+*:before,
+*:after {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 
   -webkit-user-select: none;
--khtml-user-select: none;
--moz-user-select: none;
--ms-user-select: none;
--o-user-select: none;
-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
 }
 
 :root {
@@ -17,7 +19,7 @@ user-select: none;
 
   --toolbar-item-width: 2rem;
   --toolbar-item-height: 2rem;
-  
+
   font-family: "Ubuntu";
 }
 
@@ -26,7 +28,6 @@ user-select: none;
   display: grid;
   place-items: center;
   background: var(--background-color);
-  
 }
 
 /* Media queries */

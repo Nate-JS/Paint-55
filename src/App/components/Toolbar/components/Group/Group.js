@@ -1,10 +1,6 @@
-import React from 'react';
-import './Group.css';
+import React from "react";
+import "./Group.css";
 
 export default function Group({ children }) {
-    return (
-        <div className="group">
-            { children}
-        </div>
-    )
+  return <div className="group">{children}</div>;
 }

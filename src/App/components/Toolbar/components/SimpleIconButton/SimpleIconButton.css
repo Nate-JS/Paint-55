@@ -11,5 +11,5 @@
 }
 
 .simpleIconButton:not(.simpleIconButton--disabled):hover {
-  background-color:rgb(27, 41, 22);
+  background-color: rgb(27, 41, 22);
 }
