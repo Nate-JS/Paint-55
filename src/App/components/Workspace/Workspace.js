@@ -2,37 +2,75 @@ import React, { Component } from 'react';
 import './Workspace.css';
 import Vector from './utils/Vector';
 
-// Workspace component is resposiable for drawing defferent elements on the screen
+import { connect } from 'react-redux';
+
+// The Workspace component is resposiable for drawing defferent elements on the screen
 // It uses canvas API to draw elements and the stuff like that
-export default class Workspace extends Component {
+
+class Workspace extends Component {
     constructor(props) {
+        // Greeting ;)
+        console.log('%c THE WORKSPACE IS PERFECT!', 'font-size: 3rem; color: blue');
+
         // Calling parent`s constructor function
         super(props);
 
-        // All objects that will be drawn
+        // Declaring properties
         this.objects = [];
+        this.isMouseDown = false;
+        this.mousePosition = new Vector(null, null);
+
+        // Getting current item, color, and size
+        this.updateDrawingProperties();
 
         // Creating refs
         this.canvasRef = React.createRef();
 
+        // Getting the pixet ratio
+        this.PIXEL_RATIO = (function () {
+            const ctx = document.createElement("canvas").getContext("2d"),
+                dpr = window.devicePixelRatio || 1,
+                bsr = ctx.webkitBackingStorePixelRatio ||
+                    ctx.mozBackingStorePixelRatio ||
+                    ctx.msBackingStorePixelRatio ||
+                    ctx.oBackingStorePixelRatio ||
+                    ctx.backingStorePixelRatio || 1;
+
+            return dpr / bsr;
+        })();
+
+
+    }
+
+    updateDrawingProperties() {
+        this.selectedItem = this.props.selectedItem;
+        this.selectedColor = this.props.selectedColor;
+        this.selectedWidth = this.props.selectedWidth;
     }
 
     draw() {
         // Drawing the first element
-        this.drawCircle(new Vector(500, 500), 50, 5, "lightblue", "black", false);
+        this.drawCircle(this.mousePosition, 20, 7, "red", "black", false);
+
     }
 
     componentDidMount() {
         // Setting up the canvas
-        this.setCanvas()
+        this.setCanvas();
+        this.setContext();
+
+        // Settings up events listeners
+        this.setEventListeners()
+
+    }
+
+    componentDidUpdate() {
+        this.setContext();
     }
 
     setCanvas() {
         // Creating canvas
         this.canvas = this.canvasRef.current;
-
-        // Creating context
-        this.context = this.canvas.getContext('2d');
 
         // Getting the width and height of the parent element
         const parentHTMLElement = this.canvas.parentElement;
@@ -43,10 +81,38 @@ export default class Workspace extends Component {
         const h = parseInt(parentHTMLElementStyles.getPropertyValue("height"), 10);
 
         // Setting up the canvas' height and width
-        this.canvas.width = w
-        this.canvas.height = h
+        this.canvas.width = w * this.PIXEL_RATIO;
+        this.canvas.height = h * this.PIXEL_RATIO;
         this.canvas.style.width = `${w}px`;
         this.canvas.style.height = `${h}px`;
+        this.canvas.getContext("2d").setTransform(this.PIXEL_RATIO, 0, 0, this.PIXEL_RATIO, 0, 0);
+    }
+
+    setContext() {
+        // Creating context
+        this.context = this.canvas.getContext('2d');
+    }
+
+    setEventListeners() {
+        // Event listeners for mouse movement
+        this.canvas.addEventListener('mousedown', () => this.isMouseDown = true);
+        this.canvas.addEventListener('mouseup', () => this.isMouseDown = false);
+        this.canvas.addEventListener('mousemove', (event) => this.mouseMovmentHandler(event))
+    }
+
+    mouseMovmentHandler(event) {
+        // Updating the current mouse position
+        this.updateMousePosition(event);
+
+        // update
+        this.updateDrawingProperties()
+
+        // Draw
+        this.draw()
+    }
+
+    updateMousePosition({ offsetX, offsetY }) {
+        this.mousePosition.newPosition(offsetX, offsetY);
     }
 
     setWidth(width) {
@@ -123,8 +189,16 @@ export default class Workspace extends Component {
 }
 
 
+const mapStateToProps = state => {
+    return {
+        selectedItem: state.selectedItem,
+        selectedColor: state.selectedColor,
+        selectedWidth: state.selectedWidth
+    }
+}
 
 
+export default connect(mapStateToProps)(Workspace);
 
 
 
