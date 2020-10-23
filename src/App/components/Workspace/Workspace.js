@@ -64,34 +64,20 @@ class Workspace extends Component {
                 2) Movable point (for the user to decied where the line will be visiually)
             */
             case "indicatorIconButton-line":
-                // Updaing the current item, color and width
                 this.updateDrawingProperties()
-
-                // In this stage the fixed point will be setted
                 if (this.currentObjectState === 0) {
-                    // Drawing a line if the mouse is down
                     if (this.isMouseDown) {
-                        // Remmembering the fixed point
                         this.currentObjectFixedPosition.newPosition(this.mousePosition.x, this.mousePosition.y)
-                        // Changing the stage
                         this.currentObjectState += 1
                     }
                 }
 
-                /*
-                    In this stage the program draws test lines on the layer, they automatically desappear after each updating, 
-                    and when the user relases the mouse it draws the last line on the canvas to complete the wole line
-                */
                 else if (this.currentObjectState === 1) {
                     if (this.isMouseDown) {
-                        // Clearing the layer 
                         this.clear("layer")
-                        // Drawing the line from the fixed point to the mouse position
                         this.drawLine(this.layerContext, this.currentObjectFixedPosition, this.mousePosition, this.selectedWidth, this.selectedColor);
                     } else {
-                        // Drawing the line from the fixed position to the mouse
                         this.drawLine(this.canvasContext, this.currentObjectFixedPosition, this.mousePosition, this.selectedWidth, this.selectedColor);
-                        // Changing the stage to 0, that means that it's a whole cycle 
                         this.currentObjectState = 0
                     }
                 }
@@ -100,44 +86,49 @@ class Workspace extends Component {
 
 
             case "indicatorIconButton-rectangle":
-                // Updaing the current item, color and width
                 this.updateDrawingProperties()
 
-                // In this stage the fixed point will be setted
                 if (this.currentObjectState === 0) {
-                    // Drawing a line if the mouse is down
                     if (this.isMouseDown) {
-                        // Remmembering the fixed point
                         this.currentObjectFixedPosition.newPosition(this.mousePosition.x, this.mousePosition.y)
-                        // Changing the stage
                         this.currentObjectState += 1
                     }
                 }
 
-                /*
-                    In this stage the program draws test reactangles on the layer, they automatically desappear after each updating, 
-                    and when the user relases the mouse it draws the last version on the canvas to complete the wole shape
-                */
                 else if (this.currentObjectState === 1) {
                     if (this.isMouseDown) {
-                        // Clearing the layer 
                         this.clear("layer")
-
                         const length = this.mousePosition.x - this.currentObjectFixedPosition.x;
                         const height = this.mousePosition.y - this.currentObjectFixedPosition.y;
-
-
-                        // Drawing the line from the fixed point to the mouse position
                         this.drawRectangle(this.layerContext, this.currentObjectFixedPosition, length, height, this.selectedWidth, this.selectedColor, this.selectedColor, true);
                     } else {
-
                         const length = this.mousePosition.x - this.currentObjectFixedPosition.x;
                         const height = this.mousePosition.y - this.currentObjectFixedPosition.y;
-
-                        // Drawing the line from the fixed position to the mouse
                         this.drawRectangle(this.canvasContext, this.currentObjectFixedPosition, length, height, this.selectedWidth, this.selectedColor, this.selectedColor, true);
+                        this.currentObjectState = 0
+                    }
+                }
 
-                        // Changing the stage to 0, that means that it's a whole cycle 
+                break;
+
+            case "indicatorIconButton-circle":
+                this.updateDrawingProperties()
+
+                if (this.currentObjectState === 0) {
+                    if (this.isMouseDown) {
+                        this.currentObjectFixedPosition.newPosition(this.mousePosition.x, this.mousePosition.y)
+                        this.currentObjectState += 1
+                    }
+                }
+
+                else if (this.currentObjectState === 1) {
+                    if (this.isMouseDown) {
+                        this.clear("layer")
+                        const r = Math.abs(this.mousePosition.x - this.currentObjectFixedPosition.x);
+                        this.drawCircle(this.layerContext, this.currentObjectFixedPosition, r, this.selectedWidth, this.selectedColor, this.selectedColor, true);
+                    } else {
+                        const r = Math.abs(this.mousePosition.x - this.currentObjectFixedPosition.x);
+                        this.drawCircle(this.canvasContext, this.currentObjectFixedPosition, r, this.selectedWidth, this.selectedColor, this.selectedColor, true);
                         this.currentObjectState = 0
                     }
                 }
