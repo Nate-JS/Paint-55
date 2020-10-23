@@ -97,6 +97,52 @@ class Workspace extends Component {
                 }
 
                 break;
+
+
+            case "indicatorIconButton-rectangle":
+                // Updaing the current item, color and width
+                this.updateDrawingProperties()
+
+                // In this stage the fixed point will be setted
+                if (this.currentObjectState === 0) {
+                    // Drawing a line if the mouse is down
+                    if (this.isMouseDown) {
+                        // Remmembering the fixed point
+                        this.currentObjectFixedPosition.newPosition(this.mousePosition.x, this.mousePosition.y)
+                        // Changing the stage
+                        this.currentObjectState += 1
+                    }
+                }
+
+                /*
+                    In this stage the program draws test reactangles on the layer, they automatically desappear after each updating, 
+                    and when the user relases the mouse it draws the last version on the canvas to complete the wole shape
+                */
+                else if (this.currentObjectState === 1) {
+                    if (this.isMouseDown) {
+                        // Clearing the layer 
+                        this.clear("layer")
+
+                        const length = this.mousePosition.x - this.currentObjectFixedPosition.x;
+                        const height = this.mousePosition.y - this.currentObjectFixedPosition.y;
+
+
+                        // Drawing the line from the fixed point to the mouse position
+                        this.drawRectangle(this.layerContext, this.currentObjectFixedPosition, length, height, this.selectedWidth, this.selectedColor, this.selectedColor, true);
+                    } else {
+
+                        const length = this.mousePosition.x - this.currentObjectFixedPosition.x;
+                        const height = this.mousePosition.y - this.currentObjectFixedPosition.y;
+
+                        // Drawing the line from the fixed position to the mouse
+                        this.drawRectangle(this.canvasContext, this.currentObjectFixedPosition, length, height, this.selectedWidth, this.selectedColor, this.selectedColor, true);
+
+                        // Changing the stage to 0, that means that it's a whole cycle 
+                        this.currentObjectState = 0
+                    }
+                }
+
+                break;
         }
 
         requestAnimationFrame(this.update);

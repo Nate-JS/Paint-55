@@ -10,8 +10,6 @@ import Group from './components/Group/Group';
 
 // Importing icons
 import favicon from '../../../images/icons/favicon.svg';
-import chevronRightIcon from '../../../images/icons/chevron-right.svg';
-import chevronLeftIcon from '../../../images/icons/chevron-left.svg';
 import pencilIcon from '../../../images/icons/pencil.svg';
 import brushIcon from '../../../images/icons/brush.svg';
 import eraserIcon from '../../../images/icons/eraser.svg';
