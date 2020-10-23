@@ -57,6 +57,17 @@ class Workspace extends Component {
                 }
                 break;
 
+            case "indicatorIconButton-eraser":
+                // Updaing the current item, color and width
+                this.updateDrawingProperties()
+
+                // Drawing a circle if the mouse is down
+                if (this.isMouseDown) {
+                    // Drawing the circle
+                    this.drawCircle(this.canvasContext, this.mousePosition, this.selectedWidth, this.selectedWidth, "#ffffff", "#ffffff", true)
+                }
+                break;
+
 
             /*
                 To draw a line we need two important things 
