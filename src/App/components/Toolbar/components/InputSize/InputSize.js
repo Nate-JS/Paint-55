@@ -20,7 +20,7 @@ export default function InputSize() {
             type="number"
             value={value}
             min="1"
-            max="300"
+            max="500"
             step="2"
             onChange={event => updateValue(event.target.value)}
         />

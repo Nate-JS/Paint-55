@@ -2,14 +2,14 @@ import React from 'react';
 import './SimpleIconButton.css';
 
 
-export default function SimpleIconButton({ id, icon }) {
+export default function SimpleIconButton({ id, icon, disabled = false }) {
     function handleClick() {
 
     }
 
     return (
         <div
-            className="simpleIconButton"
+            className={`simpleIconButton ${disabled && "simpleIconButton--disabled"} `}
 
             id={id}
 

@@ -10,6 +10,6 @@
   height: 100%;
 }
 
-.simpleIconButton:hover {
+.simpleIconButton:not(.simpleIconButton--disabled):hover {
   background-color:rgb(27, 41, 22);
 }

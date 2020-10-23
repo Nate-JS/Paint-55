@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Workspace.css';
-import Vector from './utils/Vector';
+import { Vector } from './Workspace.extra';
 
 import { connect } from 'react-redux';
 
@@ -15,16 +15,18 @@ class Workspace extends Component {
         // Calling parent`s constructor function
         super(props);
 
-        // Declaring properties
-        this.objects = [];
-        this.isMouseDown = false;
-        this.mousePosition = new Vector(null, null);
-
         // Getting current item, color, and size
         this.updateDrawingProperties();
 
+        // Declaring properties
+        this.currentObjectState = 0;
+        this.currentObjectFixedPosition = new Vector();
+        this.isMouseDown = false;
+        this.mousePosition = new Vector(null, null);
+
         // Creating refs
         this.canvasRef = React.createRef();
+        this.layerRef = React.createRef();
 
         // Getting the pixet ratio
         this.PIXEL_RATIO = (function () {
@@ -39,7 +41,65 @@ class Workspace extends Component {
             return dpr / bsr;
         })();
 
+    }
 
+    update = () => {
+
+        switch (this.selectedItem) {
+            case "indicatorIconButton-pencil":
+                // Updaing the current item, color and width
+                this.updateDrawingProperties()
+
+                // Drawing a circle if the mouse is down
+                if (this.isMouseDown) {
+                    // Drawing the circle
+                    this.drawCircle(this.canvasContext, this.mousePosition, this.selectedWidth, this.selectedWidth, this.selectedColor, this.selectedColor, true)
+                }
+                break;
+
+
+            /*
+                To draw a line we need two important things 
+                1) Fixed point
+                2) Movable point (for the user to decied where the line will be visiually)
+            */
+            case "indicatorIconButton-line":
+                // Updaing the current item, color and width
+                this.updateDrawingProperties()
+
+                // In this stage the fixed point will be setted
+                if (this.currentObjectState === 0) {
+                    // Drawing a line if the mouse is down
+                    if (this.isMouseDown) {
+                        // Remmembering the fixed point
+                        this.currentObjectFixedPosition.newPosition(this.mousePosition.x, this.mousePosition.y)
+                        // Changing the stage
+                        this.currentObjectState += 1
+                    }
+                }
+
+                /*
+                    In this stage the program draws test lines on the layer, they automatically desappear after each updating, 
+                    and when the user relases the mouse it draws the last line on the canvas to complete the wole line
+                */
+                else if (this.currentObjectState === 1) {
+                    if (this.isMouseDown) {
+                        // Clearing the layer 
+                        this.clear("layer")
+                        // Drawing the line from the fixed point to the mouse position
+                        this.drawLine(this.layerContext, this.currentObjectFixedPosition, this.mousePosition, this.selectedWidth, this.selectedColor);
+                    } else {
+                        // Drawing the line from the fixed position to the mouse
+                        this.drawLine(this.canvasContext, this.currentObjectFixedPosition, this.mousePosition, this.selectedWidth, this.selectedColor);
+                        // Changing the stage to 0, that means that it's a whole cycle 
+                        this.currentObjectState = 0
+                    }
+                }
+
+                break;
+        }
+
+        requestAnimationFrame(this.update);
     }
 
     updateDrawingProperties() {
@@ -48,26 +108,23 @@ class Workspace extends Component {
         this.selectedWidth = this.props.selectedWidth;
     }
 
-    draw() {
-        // Drawing the first element
-        if (this.isMouseDown) {
-            this.drawCircle(this.mousePosition, this.selectedWidth, 1, this.selectedColor, this.selectedColor, false);
-        }
-
-    }
-
     componentDidMount() {
-        // Setting up the canvas
+        // Setting up the canvas and layer
         this.setCanvas();
-        this.setContext();
+        this.setLayer()
+
+        this.setCanvasContext();
+        this.setLayerContext();
 
         // Settings up events listeners
-        this.setEventListeners()
+        this.setEventListeners();
+
+        this.update()
 
     }
 
     componentDidUpdate() {
-        this.setContext();
+        this.setCanvasContext();
     }
 
     setCanvas() {
@@ -90,9 +147,34 @@ class Workspace extends Component {
         this.canvas.getContext("2d").setTransform(this.PIXEL_RATIO, 0, 0, this.PIXEL_RATIO, 0, 0);
     }
 
-    setContext() {
-        // Creating context
-        this.context = this.canvas.getContext('2d');
+    setLayer() {
+        // Creating layer
+        this.layer = this.layerRef.current;
+
+        // Getting the width and height of the parent element
+        const parentHTMLElement = this.layer.parentElement;
+        const parentHTMLElementStyles = getComputedStyle(parentHTMLElement);
+
+        // Creating width and height variables, based on the parent element's properties
+        const w = parseInt(parentHTMLElementStyles.getPropertyValue("width"), 10);
+        const h = parseInt(parentHTMLElementStyles.getPropertyValue("height"), 10);
+
+        // Setting up the layer's height and width
+        this.layer.width = w * this.PIXEL_RATIO;
+        this.layer.height = h * this.PIXEL_RATIO;
+        this.layer.style.width = `${w}px`;
+        this.layer.style.height = `${h}px`;
+        this.layer.getContext("2d").setTransform(this.PIXEL_RATIO, 0, 0, this.PIXEL_RATIO, 0, 0);
+    }
+
+    setCanvasContext() {
+        // Creating canvas context
+        this.canvasContext = this.canvas.getContext('2d');
+    }
+
+    setLayerContext() {
+        // Creating layer context
+        this.layerContext = this.layer.getContext('2d')
     }
 
     setEventListeners() {
@@ -105,86 +187,81 @@ class Workspace extends Component {
     mouseMovmentHandler(event) {
         // Updating the current mouse position
         this.updateMousePosition(event);
-
-        // update
-        this.updateDrawingProperties()
-
-        // Draw
-        this.draw()
     }
 
     updateMousePosition({ offsetX, offsetY }) {
         this.mousePosition.newPosition(offsetX, offsetY);
     }
 
-    setWidth(width) {
-        this.context.lineWidth = width;
+    setWidth(context, width) {
+        context.lineWidth = width;
     }
 
-    setColor(fillColor, strokeColor) {
-        this.context.fillStyle = fillColor;
-        this.context.strokeStyle = strokeColor;
+    setColor(context, fillColor, strokeColor) {
+        context.fillStyle = fillColor;
+        context.strokeStyle = strokeColor;
     }
 
-    drawLine(vector1, vector2, width, color) {
-        this.context.beginPath()
-        this.setWidth(width)
-        this.setColor(color)
-        this.context.moveTo(vector1.x, vector1.y)
-        this.context.lineTo(vector2.x, vector2.y)
-        this.context.stroke()
-        this.context.closePath()
+    drawLine(context, vector1, vector2, width, color) {
+        context.beginPath()
+        this.setWidth(context, width)
+        this.setColor(context, color, color)
+        context.moveTo(vector1.x, vector1.y)
+        context.lineTo(vector2.x, vector2.y)
+        context.stroke()
+        context.closePath()
     }
 
-    drawCircle(vector, radius, width, fillColor, strokeColor, fill = false) {
-        this.context.beginPath()
-        this.setWidth(width)
-        this.setColor(fillColor, strokeColor)
-        this.context.arc(vector.x, vector.y, radius, 0, Math.PI * 2)
+    drawCircle(context, vector, radius, width, fillColor, strokeColor, fill = false) {
+        context.beginPath()
+        this.setWidth(context, width)
+        this.setColor(context, fillColor, strokeColor)
+        context.arc(vector.x, vector.y, radius, 0, Math.PI * 2)
 
         if (fill)
-            this.context.fill()
+            context.fill()
         else
-            this.context.stroke()
+            context.stroke()
 
-        this.context.closePath()
+        context.closePath()
     }
 
-    drawRectangle(vector, length, height, width, fillColor, strokeColor, fill = false) {
-        this.context.beginPath()
-        this.setWidth(width)
-        this.setColor(fillColor, strokeColor)
-        this.context.rect(vector.x, vector.y, length, height)
+    drawRectangle(context, vector, length, height, width, fillColor, strokeColor, fill = false) {
+        context.beginPath()
+        this.setWidth(context, width)
+        this.setColor(context, fillColor, strokeColor)
+        context.rect(vector.x, vector.y, length, height)
 
         if (fill)
-            this.context.fill()
+            context.fill()
         else
-            this.context.stroke()
+            context.stroke()
 
-        this.context.closePath()
+        context.closePath()
     }
 
-    drawText(vector, text, font, size, fillColor, strokeColor, fill = true) {
-        this.context.beginPath()
-        this.setColor(fillColor, strokeColor)
-        this.context.font = `${size}px ${font}`;
+    drawText(context, vector, text, font, size, fillColor, strokeColor, fill = true) {
+        context.beginPath()
+        this.setColor(context, fillColor, strokeColor)
+        context.font = `${size}px ${font}`;
 
         if (fill)
-            this.context.fillText(text, vector.x, vector.y)
+            context.fillText(text, vector.x, vector.y)
         else
-            this.context.strokeText(text, vector.x, vector.y)
+            context.strokeText(text, vector.x, vector.y)
 
-        this.context.closePath()
+        context.closePath()
     }
 
-    clear() {
-        this.context.clearRect(0, 0, this.w, this.h)
+    clear(type) {
+        type === "canvas" ? this.canvasContext.clearRect(0, 0, this.canvas.width, this.canvas.height) : this.layerContext.clearRect(0, 0, this.layer.width, this.layer.height)
     }
 
     render() {
         return (
             <div className="workspace">
                 <canvas className="canvas" ref={this.canvasRef}></canvas>
+                <canvas className="layer" ref={this.layerRef}></canvas>
             </div>
         )
     }

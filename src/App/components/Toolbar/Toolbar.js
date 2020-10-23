@@ -9,6 +9,7 @@ import InputSize from './components/InputSize/InputSize';
 import Group from './components/Group/Group';
 
 // Importing icons
+import favicon from '../../../images/icons/favicon.svg';
 import chevronRightIcon from '../../../images/icons/chevron-right.svg';
 import chevronLeftIcon from '../../../images/icons/chevron-left.svg';
 import pencilIcon from '../../../images/icons/pencil.svg';
@@ -27,8 +28,7 @@ export default function Toolbar() {
     return (
         <div className="toolbar">
             <Group>
-                <SimpleIconButton id="simpleIconButton-chevron-left" icon={chevronLeftIcon} />
-                <SimpleIconButton id="simpleIconButton-chevron-right" icon={chevronRightIcon} />
+                <SimpleIconButton id="simpleIconButton-chevron-left" icon={favicon} disabled />
             </Group>
             <Group>
                 <IndicatorIconButton id="indicatorIconButton-pencil" icon={pencilIcon} />
