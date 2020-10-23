@@ -50,7 +50,9 @@ class Workspace extends Component {
 
     draw() {
         // Drawing the first element
-        this.drawCircle(this.mousePosition, 20, 7, "red", "black", false);
+        if (this.isMouseDown) {
+            this.drawCircle(this.mousePosition, this.selectedWidth, 1, this.selectedColor, this.selectedColor, false);
+        }
 
     }
 
@@ -196,7 +198,6 @@ const mapStateToProps = state => {
         selectedWidth: state.selectedWidth
     }
 }
-
 
 export default connect(mapStateToProps)(Workspace);
 

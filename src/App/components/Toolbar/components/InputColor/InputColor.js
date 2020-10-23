@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import './InputColor.css';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import setSelectedColor from '../../../../../actions/setSelectedColor';
 
 export default function InputColor() {
-    const [value, setValue] = useState("#30FD15");
     const dispatch = useDispatch();
+    const deafaultValue = useSelector(state => state.selectedColor);
+    const [value, setValue] = useState(deafaultValue);
 
     function updateValue(newValue) {
         setValue(newValue);
