@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import setSelectedItem from '../../../../../actions/setSelectedItem';
 
 
-export default function IndicatorIconButton({ id, icon }) {
+export default function IndicatorIconButton({ id, icon, dropup }) {
     const dispatch = useDispatch();
     const selectedItemId = useSelector(state => state.selectedItem)
 
@@ -23,6 +23,14 @@ export default function IndicatorIconButton({ id, icon }) {
             onClick={handleClick}
         >
             <img className="indicatorIconButton__icon" src={icon} alt="icon-button" />
+            <div className={dropup ? "dropup" : "dropup--disabled"}>
+                <label className="dropup__text">Fill</label>
+                <input
+                    className="dropup__checkbox"
+                    onClick={handleClick}
+                    type="checkbox"
+                />
+            </div>
         </div>
     )
 }

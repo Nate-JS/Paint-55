@@ -1,12 +1,12 @@
 .inputColor {
   width: calc(2 * var(--toolbar-item-width));
-  height: var(--toolbar-item-height);
+  height: calc(.7 * var(--toolbar-item-height));
 }
 input[type="color"] {
 	-webkit-appearance: none;
   border: none;
   width: calc(2 * var(--toolbar-item-width));
-  height: var(--toolbar-item-height);
+  height: calc(.7 * var(--toolbar-item-height));
   outline: none;
   border-radius: 0 5px 5px 0;
   

@@ -9,7 +9,6 @@ import InputSize from './components/InputSize/InputSize';
 import Group from './components/Group/Group';
 
 // Importing icons
-import favicon from '../../../images/icons/favicon.svg';
 import pencilIcon from '../../../images/icons/pencil.svg';
 import brushIcon from '../../../images/icons/brush.svg';
 import eraserIcon from '../../../images/icons/eraser.svg';
@@ -26,16 +25,13 @@ export default function Toolbar() {
     return (
         <div className="toolbar">
             <Group>
-                <SimpleIconButton id="simpleIconButton-chevron-left" icon={favicon} disabled />
-            </Group>
-            <Group>
                 <IndicatorIconButton id="indicatorIconButton-pencil" icon={pencilIcon} />
                 <IndicatorIconButton id="indicatorIconButton-brush" icon={brushIcon} />
                 <IndicatorIconButton id="indicatorIconButton-eraser" icon={eraserIcon} />
-                <IndicatorIconButton id="indicatorIconButton-text" icon={textIcon} />
+                <IndicatorIconButton id="indicatorIconButton-text" icon={textIcon} dropup />
                 <IndicatorIconButton id="indicatorIconButton-line" icon={lineIcon} />
-                <IndicatorIconButton id="indicatorIconButton-rectangle" icon={rectangleIcon} />
-                <IndicatorIconButton id="indicatorIconButton-circle" icon={circleIcon} />
+                <IndicatorIconButton id="indicatorIconButton-rectangle" icon={rectangleIcon} dropup />
+                <IndicatorIconButton id="indicatorIconButton-circle" icon={circleIcon} dropup />
             </Group>
             <Group>
                 <InputSize id="input-size" />

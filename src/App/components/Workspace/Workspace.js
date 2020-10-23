@@ -47,33 +47,29 @@ class Workspace extends Component {
 
         switch (this.selectedItem) {
             case "indicatorIconButton-pencil":
-                // Updaing the current item, color and width
                 this.updateDrawingProperties()
 
-                // Drawing a circle if the mouse is down
                 if (this.isMouseDown) {
-                    // Drawing the circle
                     this.drawCircle(this.canvasContext, this.mousePosition, this.selectedWidth, this.selectedWidth, this.selectedColor, this.selectedColor, true)
                 }
                 break;
 
             case "indicatorIconButton-eraser":
-                // Updaing the current item, color and width
                 this.updateDrawingProperties()
 
-                // Drawing a circle if the mouse is down
                 if (this.isMouseDown) {
-                    // Drawing the circle
                     this.drawCircle(this.canvasContext, this.mousePosition, this.selectedWidth, this.selectedWidth, "#ffffff", "#ffffff", true)
                 }
                 break;
 
+            case "indicatorIconButton-brush":
+                this.updateDrawingProperties()
 
-            /*
-                To draw a line we need two important things 
-                1) Fixed point
-                2) Movable point (for the user to decied where the line will be visiually)
-            */
+                if (this.isMouseDown) {
+                    this.drawRectangle(this.canvasContext, new Vector((this.mousePosition.x - this.selectedWidth / 2), (this.mousePosition.y - this.selectedWidth / 2)), this.selectedWidth, this.selectedWidth, this.selectedWidth, this.selectedColor, this.selectedColor, true)
+                }
+                break;
+
             case "indicatorIconButton-line":
                 this.updateDrawingProperties()
                 if (this.currentObjectState === 0) {

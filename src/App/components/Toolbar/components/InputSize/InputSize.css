@@ -1,6 +1,6 @@
 .inputSize {
   width: calc(2 * var(--toolbar-item-width));
-  height: var(--toolbar-item-height);
+  height: calc(.7 * var(--toolbar-item-height));
   text-align: center;
 }
 
@@ -8,7 +8,7 @@ input[type="number"] {
   text-align: center;
   padding-left: 15px;
   border: none;
-  font-size: calc(.3* var(--toolbar-item-width));
+  font-size: calc(.25* var(--toolbar-item-width));
   outline: none;
   border-radius: 5px 0 0 5px;
 }
