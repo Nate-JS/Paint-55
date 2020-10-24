@@ -1,11 +1,8 @@
 import React, { Component } from "react";
-import "./Workspace.css";
 import { Vector } from "./Workspace.extra";
-
+import "./Workspace.css";
+import config from "components/App/App.config";
 import { connect } from "react-redux";
-
-// The Workspace component is resposiable for drawing defferent elements on the screen
-// It uses canvas API to draw elements and the stuff like that
 
 class Workspace extends Component {
   constructor(props) {
@@ -39,14 +36,14 @@ class Workspace extends Component {
   }
 
   update = () => {
-    switch (this.props.activeItem) {
-      case "indicatorIconButton-pencil":
+    switch (this.props.activeItemId) {
+      case config.items["pencil"].id:
         if (this.isMouseDown) {
           this.drawCircle(
             this.canvasContext,
             this.mousePosition,
-            this.props.pencil.width,
-            this.props.pencil.width,
+            this.props.pencil.size,
+            this.props.pencil.size,
             this.props.activeColor,
             this.props.activeColor,
             true
@@ -54,13 +51,13 @@ class Workspace extends Component {
         }
         break;
 
-      case "indicatorIconButton-eraser":
+      case config.items["eraser"].id:
         if (this.isMouseDown) {
           this.drawCircle(
             this.canvasContext,
             this.mousePosition,
-            this.props.eraser.width,
-            this.props.eraser.width,
+            this.props.eraser.size,
+            this.props.eraser.size,
             "#ffffff",
             "#ffffff",
             true
@@ -68,17 +65,17 @@ class Workspace extends Component {
         }
         break;
 
-      case "indicatorIconButton-brush":
+      case config.items["brush"].id:
         if (this.isMouseDown) {
           this.drawRectangle(
             this.canvasContext,
             new Vector(
-              this.mousePosition.x - this.props.brush.width / 2,
-              this.mousePosition.y - this.props.brush.width / 2
+              this.mousePosition.x - this.props.brush.size / 2,
+              this.mousePosition.y - this.props.brush.size / 2
             ),
-            this.props.brush.width,
-            this.props.brush.width,
-            this.props.brush.width,
+            this.props.brush.size,
+            this.props.brush.size,
+            this.props.brush.size,
             this.props.activeColor,
             this.props.activeColor,
             true
@@ -86,7 +83,7 @@ class Workspace extends Component {
         }
         break;
 
-      case "indicatorIconButton-line":
+      case config.items["line"].id:
         if (this.currentObjectState === 0) {
           if (this.isMouseDown) {
             this.currentObjectFixedPosition.newPosition(this.mousePosition.x, this.mousePosition.y);
@@ -99,7 +96,7 @@ class Workspace extends Component {
               this.layerContext,
               this.currentObjectFixedPosition,
               this.mousePosition,
-              this.props.line.width,
+              this.props.line.size,
               this.props.activeColor
             );
           } else {
@@ -107,7 +104,7 @@ class Workspace extends Component {
               this.canvasContext,
               this.currentObjectFixedPosition,
               this.mousePosition,
-              this.props.line.width,
+              this.props.line.size,
               this.props.activeColor
             );
             this.currentObjectState = 0;
@@ -116,7 +113,7 @@ class Workspace extends Component {
 
         break;
 
-      case "indicatorIconButton-circle":
+      case config.items["circle"].id:
         if (this.currentObjectState === 0) {
           if (this.isMouseDown) {
             this.currentObjectFixedPosition.newPosition(this.mousePosition.x, this.mousePosition.y);
@@ -130,7 +127,7 @@ class Workspace extends Component {
               this.layerContext,
               this.currentObjectFixedPosition,
               r,
-              this.props.circle.width,
+              this.props.circle.size,
               this.props.activeColor,
               this.props.activeColor,
               this.props.circle.fill
@@ -141,7 +138,7 @@ class Workspace extends Component {
               this.canvasContext,
               this.currentObjectFixedPosition,
               r,
-              this.props.circle.width,
+              this.props.circle.size,
               this.props.activeColor,
               this.props.activeColor,
               this.props.circle.fill
@@ -152,7 +149,7 @@ class Workspace extends Component {
 
         break;
 
-      case "indicatorIconButton-rectangle":
+      case config.items["rectangle"].id:
         if (this.currentObjectState === 0) {
           if (this.isMouseDown) {
             this.currentObjectFixedPosition.newPosition(this.mousePosition.x, this.mousePosition.y);
@@ -168,7 +165,7 @@ class Workspace extends Component {
               this.currentObjectFixedPosition,
               length,
               height,
-              this.props.rectangle.width,
+              this.props.rectangle.size,
               this.props.activeColor,
               this.props.activeColor,
               this.props.rectangle.fill
@@ -181,7 +178,7 @@ class Workspace extends Component {
               this.currentObjectFixedPosition,
               length,
               height,
-              this.props.rectangle.width,
+              this.props.rectangle.size,
               this.props.activeColor,
               this.props.activeColor,
               this.props.rectangle.fill
@@ -191,6 +188,10 @@ class Workspace extends Component {
         }
 
         break;
+
+      default: {
+        return;
+      }
     }
 
     requestAnimationFrame(this.update);
@@ -352,15 +353,15 @@ class Workspace extends Component {
 
 const mapStateToProps = state => {
   return {
-    activeItem: state.activeItem,
+    activeItemId: state.activeItemId,
     activeColor: state.activeColor,
 
-    pencil: state.pencil,
-    brush: state.brush,
-    eraser: state.eraser,
-    line: state.line,
-    rectangle: state.rectangle,
-    circle: state.circle,
+    pencil: state.items.pencil,
+    brush: state.items.brush,
+    eraser: state.items.eraser,
+    line: state.items.line,
+    rectangle: state.items.rectangle,
+    circle: state.items.circle,
   };
 };
 

@@ -1,142 +1,92 @@
-import config from "../App/App.config";
+import * as actionTypes from "actions/actionTypes";
+import config from "components/App/App.config";
 
-const storage = {
-  activeItem: "indicatorIconButton-" + config.default.activeItem,
-  activeColor: config.default.activeColor,
+const initialState = {
+  activeItemId: config.activeItemId,
+  activeColor: config.activeColor,
 
-  pencil: {
-    width: config.default.pencil.width,
-  },
-
-  brush: {
-    width: config.default.brush.width,
-  },
-
-  eraser: { width: config.default.eraser.width },
-
-  line: { width: config.default.line.width },
-
-  rectangle: {
-    width: 2,
-    fill: config.default.rectangle.fill,
-  },
-
-  circle: {
-    width: config.default.circle.width,
-    fill: config.default.circle.fill,
+  items: {
+    pencil: { id: config.items.pencil.id, size: config.items.pencil.size },
+    brush: { id: config.items.brush.id, size: config.items.brush.size },
+    eraser: { id: config.items.eraser.id, size: config.items.eraser.size },
+    line: { id: config.items.line.id, size: config.items.line.size },
+    rectangle: { id: config.items.rectangle.id, size: config.items.rectangle.size, fill: config.items.rectangle.fill },
+    circle: { id: config.items.circle.id, size: config.items.circle.size, fill: config.items.circle.fill },
   },
 };
 
-function reducer(state = storage, action) {
+export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case "SET_ACTIVE_ITEM":
+    case actionTypes.UPDATE_ITEM:
+      switch (action.payload.itemId) {
+        case config.items.pencil.id:
+          return {
+            activeItemId: state.activeItemId,
+            activeColor: state.activeColor,
+            items: { ...state.items, pencil: { id: action.payload.itemId, size: action.payload.size } },
+          };
+
+        case config.items.brush.id:
+          return {
+            activeItemId: state.activeItemId,
+            activeColor: state.activeColor,
+            items: { ...state.items, brush: { id: action.payload.itemId, size: action.payload.size } },
+          };
+
+        case config.items.eraser.id:
+          return {
+            activeItemId: state.activeItemId,
+            activeColor: state.activeColor,
+            items: { ...state.items, eraser: { id: action.payload.itemId, size: action.payload.size } },
+          };
+
+        case config.items.line.id:
+          return {
+            activeItemId: state.activeItemId,
+            activeColor: state.activeColor,
+            items: { ...state.items, line: { id: action.payload.itemId, size: action.payload.size } },
+          };
+
+        case config.items.rectangle.id:
+          return {
+            activeItemId: state.activeItemId,
+            activeColor: state.activeColor,
+            items: {
+              ...state.items,
+              rectangle: { id: action.payload.itemId, size: action.payload.size, fill: action.payload.fill },
+            },
+          };
+
+        case config.items.circle.id:
+          return {
+            activeItemId: state.activeItemId,
+            activeColor: state.activeColor,
+            items: {
+              ...state.items,
+              circle: { id: action.payload.itemId, size: action.payload.size, fill: action.payload.fill },
+            },
+          };
+
+        default: {
+          return;
+        }
+      }
+
+    case actionTypes.ACTIVATE_ITEM:
       return {
-        activeItem: action.item,
+        activeItemId: action.payload.itemId,
         activeColor: state.activeColor,
-
-        pencil: state.pencil,
-        brush: state.brush,
-        eraser: state.eraser,
-        line: state.line,
-        rectangle: state.rectangle,
-        circle: state.circle,
+        items: state.items,
       };
 
-    case "SET_ACTIVE_COLOR":
+    case actionTypes.ACTIVATE_COLOR:
       return {
-        activeItem: state.activeItem,
-        activeColor: action.color,
-
-        pencil: storage.pencil,
-        brush: storage.brush,
-        eraser: storage.eraser,
-        line: storage.line,
-        rectangle: storage.rectangle,
-        circle: storage.circle,
+        activeItemId: state.activeItemId,
+        activeColor: action.payload.color,
+        items: state.items,
       };
 
-    case "SET_PENCIL":
-      return {
-        activeItem: state.activeItem,
-        activeColor: state.activeColor,
-
-        pencil: { width: action.width },
-        brush: state.brush,
-        eraser: state.eraser,
-        line: state.line,
-        rectangle: state.rectangle,
-        circle: state.circle,
-      };
-
-    case "SET_BRUSH":
-      return {
-        activeItem: state.activeItem,
-        activeColor: state.activeColor,
-
-        pencil: state.pencil,
-        brush: { width: action.width },
-        eraser: state.eraser,
-        line: state.line,
-        rectangle: state.rectangle,
-        circle: state.circle,
-      };
-
-    case "SET_ERASER":
-      return {
-        activeItem: state.activeItem,
-        activeColor: state.activeColor,
-
-        pencil: state.pencil,
-        brush: state.brush,
-        eraser: { width: action.width },
-        line: state.line,
-        rectangle: state.rectangle,
-        circle: state.circle,
-      };
-
-    case "SET_LINE":
-      return {
-        activeItem: state.activeItem,
-        activeColor: state.activeColor,
-
-        pencil: state.pencil,
-        brush: state.brush,
-        eraser: state.eraser,
-        line: { width: action.width },
-        rectangle: state.rectangle,
-        circle: state.circle,
-      };
-
-    case "SET_RECTANGLE":
-      return {
-        activeItem: state.activeItem,
-        activeColor: state.activeColor,
-
-        pencil: state.pencil,
-        brush: state.brush,
-        eraser: state.eraser,
-        line: state.line,
-        rectangle: { width: action.width, fill: action.fill },
-        circle: state.circle,
-      };
-
-    case "SET_CIRCLE":
-      return {
-        activeItem: state.activeItem,
-        activeColor: state.activeColor,
-
-        pencil: state.pencil,
-        brush: state.brush,
-        eraser: state.eraser,
-        line: state.line,
-        rectangle: state.rectangle,
-        circle: { width: action.width, fill: action.fill },
-      };
-
-    default: {
+    default:
       return state;
-    }
   }
 }
-
-export default reducer;

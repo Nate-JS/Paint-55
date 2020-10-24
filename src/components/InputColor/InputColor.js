@@ -1,18 +1,17 @@
 import React, { useState } from "react";
 import "./InputColor.css";
 
-import { useDispatch, useSelector } from "react-redux";
-import { setActiveColor } from "../../../../../actions/main";
+import { useDispatch } from "react-redux";
+import { activateColor } from "actions/actions";
+import config from "components/App/App.config";
 
 export default function InputColor() {
   const dispatch = useDispatch();
-
-  const deafaultValue = useSelector(state => state.activeColor);
-  const [value, setValue] = useState(deafaultValue);
+  const [value, setValue] = useState(config.activeColor);
 
   function updateValue(newValue) {
     setValue(newValue);
-    dispatch(setActiveColor(newValue));
+    dispatch(activateColor(newValue));
   }
 
   return (

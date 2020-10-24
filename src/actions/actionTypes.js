@@ -1,0 +1,3 @@
+export const UPDATE_ITEM = "UPDATE_ITEM";
+export const ACTIVATE_ITEM = "ACTIVATE_ITEM";
+export const ACTIVATE_COLOR = "ACTIVATE_COLOR";
