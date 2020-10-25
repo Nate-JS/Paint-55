@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import "./Modal.css";
 
 // This is a specific modal
-export default function Modal({ show, callBack }) {
+export default function Modal({ show, callBackSave, callBackClose }) {
   const [imgName, setImgName] = useState(false);
   const [imgFormat, setImgFormat] = useState("png");
 
   function returnData() {
-    if (imgName && imgFormat) callBack(imgName, imgFormat);
+    if (imgName && imgFormat) callBackSave(imgName, imgFormat);
   }
 
   return (
@@ -37,7 +37,9 @@ export default function Modal({ show, callBack }) {
         </div>
 
         <div className="group">
-          <button className="modal__btn modal__btn--secondary">Cancel</button>
+          <button className="modal__btn modal__btn--secondary" onClick={callBackClose}>
+            Cancel
+          </button>
           <button className="modal__btn modal__btn--primary" onClick={returnData}>
             Ok
           </button>

@@ -24,7 +24,7 @@ function App() {
     <div className="app">
       <Toolbar />
       <Workspace />
-      <Modal show={showModal} callBack={saveCanvas} />
+      <Modal show={showModal} callBackSave={saveCanvas} callBackClose={closeModal} />
     </div>
   );
 }
