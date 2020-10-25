@@ -20,7 +20,7 @@ import circleIcon from "icons/circle.svg";
 import downloadIcon from "icons/download.svg";
 import trashIcon from "icons/trash.svg";
 
-export default function Toolbar() {
+export default function Toolbar({ callBackOpenModal, callBackCleanCanvas }) {
   return (
     <>
       <div className="toolbar">
@@ -37,8 +37,8 @@ export default function Toolbar() {
           <InputColor id="input-color" />
         </Group>
         <Group>
-          <SimpleIconButton id="simpleIconButton-download" icon={downloadIcon} />
-          <SimpleIconButton id="simpleIconButton-trash" icon={trashIcon} />
+          <SimpleIconButton id="download" icon={downloadIcon} onClick={callBackOpenModal} />
+          <SimpleIconButton id="trash" icon={trashIcon} onClick={callBackCleanCanvas} />
         </Group>
       </div>
     </>

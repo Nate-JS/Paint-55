@@ -7,7 +7,11 @@ export default function Modal({ show, callBackSave, callBackClose }) {
   const [imgFormat, setImgFormat] = useState("png");
 
   function returnData() {
-    if (imgName && imgFormat) callBackSave(imgName, imgFormat);
+    if (imgName && imgFormat) {
+      console.log(imgFormat);
+      callBackSave(imgName, imgFormat);
+      callBackClose();
+    }
   }
 
   return (
@@ -19,6 +23,7 @@ export default function Modal({ show, callBackSave, callBackClose }) {
       <div className="modal__body">
         <div className="group">
           <input
+            required
             className="modal__input"
             id="imgName"
             type="text"
@@ -30,17 +35,17 @@ export default function Modal({ show, callBackSave, callBackClose }) {
             <option className="select__item" value="png">
               PNG
             </option>
-            <option className="select__item" value="jpg">
-              JPG
+            <option className="select__item" value="jpeg">
+              jpeg
             </option>
           </select>
         </div>
 
         <div className="group">
-          <button className="modal__btn modal__btn--secondary" onClick={callBackClose}>
+          <button type="submit" className="modal__btn modal__btn--secondary" onClick={callBackClose}>
             Cancel
           </button>
-          <button className="modal__btn modal__btn--primary" onClick={returnData}>
+          <button type="submit" className="modal__btn modal__btn--primary" onClick={returnData} onClick={returnData}>
             Ok
           </button>
         </div>

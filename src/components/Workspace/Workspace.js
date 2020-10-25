@@ -36,6 +36,8 @@ class Workspace extends Component {
   }
 
   update = () => {
+    this.clear("layer");
+
     switch (this.props.activeItemId) {
       case config.items["pencil"].id:
         if (this.isMouseDown) {
@@ -346,7 +348,7 @@ class Workspace extends Component {
   render() {
     return (
       <div className="workspace">
-        <canvas className="canvas" ref={this.canvasRef}></canvas>
+        <canvas id="canvas" className="canvas" ref={this.canvasRef}></canvas>
         <canvas className="layer" ref={this.layerRef}></canvas>
       </div>
     );

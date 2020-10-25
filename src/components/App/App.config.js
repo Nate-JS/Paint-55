@@ -32,7 +32,7 @@ const config = {
     rectangle: {
       id: 4,
       size: 2,
-      fill: true,
+      fill: false,
     },
 
     circle: {
