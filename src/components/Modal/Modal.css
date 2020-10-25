@@ -1,0 +1,104 @@
+.modal {
+  position: absolute;
+
+  top: 0;
+  right: 0;
+  transform: scale(0) translate(0, 0);
+  box-shadow: 0 0 1px 1px rgba(119, 114, 114, 0.712);
+  border-radius: 20px;
+  overflow: hidden;
+
+  transition: 300ms;
+}
+
+.modal--show {
+  transform: scale(1) translate(-20px, 120px);
+}
+
+.modal__header {
+  display: flex;
+  justify-content: center;
+  background: var(--toolbar-color);
+  padding: 10px 20px;
+}
+
+.modal__title {
+  font-size: 20px;
+  font-weight: 300;
+  color: white;
+}
+
+.modal__body {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 10px 20px;
+}
+
+.group {
+  margin: 10px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal__input {
+  padding-left: 10px;
+  height: 30px;
+  outline: none;
+  border: 1px solid silver;
+  border-radius: 10px 0 0 10px;
+}
+
+.modal__select {
+  height: 30px;
+  outline: none;
+  border: 1px solid rgb(204, 195, 195);
+  background-color: rgb(222, 222, 223);
+  color: rgb(39, 37, 37);
+  border-radius: 0 10px 10px 0;
+}
+
+.select__item {
+  background-color: #fff;
+}
+
+.select__item:hover,
+.select__item:focus {
+  background-color: rgb(29, 15, 15);
+}
+
+.modal__btn {
+  width: 46%;
+  outline: none;
+  border: none;
+  background-color: rgb(163, 168, 243);
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+  transition: 200ms;
+}
+
+.modal__btn--primary {
+  background-color: rgb(163, 168, 243);
+}
+
+.modal__btn--primary:hover {
+  background-color: rgb(105, 113, 216);
+}
+.modal__btn--primary:active {
+  background-color: rgb(69, 78, 212);
+}
+
+.modal__btn--secondary {
+  background-color: rgb(255, 255, 255);
+  border: 1px solid silver;
+  color: rgb(0, 0, 0);
+}
+
+.modal__btn--secondary:hover {
+  background-color: rgb(236, 231, 231);
+}
+
+.modal__btn--secondary:active {
+  background-color: rgb(221, 217, 217);
+}

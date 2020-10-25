@@ -133,6 +133,7 @@ class Workspace extends Component {
               this.props.circle.fill
             );
           } else {
+            this.clear("layer");
             const r = Math.abs(this.mousePosition.x - this.currentObjectFixedPosition.x);
             this.drawCircle(
               this.canvasContext,
@@ -171,6 +172,7 @@ class Workspace extends Component {
               this.props.rectangle.fill
             );
           } else {
+            this.clear("layer");
             const length = this.mousePosition.x - this.currentObjectFixedPosition.x;
             const height = this.mousePosition.y - this.currentObjectFixedPosition.y;
             this.drawRectangle(
